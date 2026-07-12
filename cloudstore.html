@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudStore — Secure Cloud Storage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #F0F4FF;
+    --navy: #0B1D3A;
+    --blue: #1A56DB;
+    --sky: #3B82F6;
+    --accent: #06B6D4;
+    --white: #FFFFFF;
+    --text: #1E293B;
+    --muted: #64748B;
+    --card: #FFFFFF;
+    --border: #DBEAFE;
+    --radius: 16px;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.65;
+  }
+  h1,h2,h3,h4{ font-family:'Syne',sans-serif; }
+  a{ text-decoration:none; color:inherit; }
+  ::selection{ background:var(--accent); color:var(--white); }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  /* ---- NAV ---- */
+  nav{
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:50;
+  }
+  nav .inner{
+    display:flex; align-items:center;
+    justify-content:space-between;
+    padding:16px 28px; max-width:1080px; margin:0 auto;
+  }
+  .logo{ font-family:'Syne',sans-serif; font-weight:800; font-size:20px; color:var(--navy); }
+  .logo span{ color:var(--blue); }
+  .nav-links{ display:flex; gap:28px; font-size:14.5px; color:var(--muted); }
+  .nav-links a:hover{ color:var(--blue); }
+  .nav-btn{
+    background:var(--blue); color:#fff;
+    padding:9px 20px; border-radius:99px;
+    font-size:14px; font-weight:600;
+  }
+  .nav-btn:hover{ background:#1244b8; }
+  @media(max-width:640px){ .nav-links{display:none;} }
+
+  /* ---- HERO ---- */
+  .hero{
+    padding:90px 0 70px;
+    text-align:center;
+    background: linear-gradient(180deg, #EEF2FF 0%, #F0F4FF 100%);
+  }
+  .hero-tag{
+    display:inline-block;
+    background:#DBEAFE; color:var(--blue);
+    font-size:13px; font-weight:600;
+    padding:6px 16px; border-radius:99px;
+    margin-bottom:22px; letter-spacing:.03em;
+  }
+  .hero h1{
+    font-size:clamp(34px,6vw,64px);
+    font-weight:800;
+    color:var(--navy);
+    line-height:1.1;
+    max-width:780px;
+    margin:0 auto 22px;
+  }
+  .hero h1 span{
+    background: linear-gradient(90deg, var(--blue), var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero p{
+    color:var(--muted); font-size:18px;
+    max-width:540px; margin:0 auto 36px;
+  }
+  .hero-btns{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary{
+    background:var(--blue); color:#fff;
+    padding:14px 28px; border-radius:99px;
+    font-size:15px; font-weight:600;
+    box-shadow:0 4px 14px rgba(26,86,219,.35);
+  }
+  .btn-primary:hover{ background:#1244b8; }
+  .btn-outline{
+    border:2px solid var(--border);
+    background:#fff; color:var(--navy);
+    padding:13px 26px; border-radius:99px;
+    font-size:15px; font-weight:600;
+  }
+  .btn-outline:hover{ border-color:var(--blue); color:var(--blue); }
+
+  /* ---- STATS BAR ---- */
+  .stats{
+    background:var(--navy);
+    padding:36px 0;
+  }
+  .stats-grid{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:20px; text-align:center;
+  }
+  .stat-num{
+    font-family:'Syne',sans-serif;
+    font-size:32px; font-weight:800;
+    color:#fff; display:block;
+  }
+  .stat-lbl{ font-size:13px; color:#94A3B8; }
+  @media(max-width:640px){
+    .stats-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+
+  /* ---- FEATURES ---- */
+  .features{ padding:88px 0; }
+  .section-label{
+    font-size:13px; font-weight:600; letter-spacing:.06em;
+    color:var(--blue); text-transform:uppercase;
+    display:block; margin-bottom:12px;
+  }
+  .section-title{
+    font-size:clamp(24px,4vw,38px);
+    font-weight:800; color:var(--navy);
+    max-width:520px; margin-bottom:52px;
+  }
+  .feat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  @media(max-width:760px){ .feat-grid{ grid-template-columns:1fr; } }
+  .feat-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:30px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .feat-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 32px rgba(26,86,219,.1);
+  }
+  .feat-icon{
+    width:48px; height:48px; border-radius:12px;
+    background:linear-gradient(135deg,#DBEAFE,#EFF6FF);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; margin-bottom:18px;
+  }
+  .feat-card h3{ font-size:18px; margin-bottom:8px; color:var(--navy); }
+  .feat-card p{ font-size:14.5px; color:var(--muted); }
+
+  /* ---- HOW IT WORKS ---- */
+  .how{ background:#fff; padding:88px 0; }
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+  @media(max-width:760px){ .steps{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:480px){ .steps{ grid-template-columns:1fr; } }
+  .step{ text-align:center; }
+  .step-num{
+    width:52px; height:52px; border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--accent));
+    color:#fff; font-family:'Syne',sans-serif;
+    font-size:20px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 16px;
+  }
+  .step h4{ font-size:16px; margin-bottom:8px; color:var(--navy); }
+  .step p{ font-size:14px; color:var(--muted); }
+
+  /* ---- PRICING ---- */
+  .pricing{ padding:88px 0; }
+  .plans{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:760px){ .plans{ grid-template-columns:1fr; } }
+  .plan{
+    background:#fff; border:1.5px solid var(--border);
+    border-radius:var(--radius); padding:32px 28px;
+  }
+  .plan.popular{
+    border-color:var(--blue);
+    box-shadow:0 8px 32px rgba(26,86,219,.18);
+    position:relative;
+  }
+  .popular-tag{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+    background:var(--blue); color:#fff;
+    font-size:12px; font-weight:700;
+    padding:5px 16px; border-radius:99px;
+    white-space:nowrap;
+  }
+  .plan-name{ font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .plan-price{
+    font-family:'Syne',sans-serif;
+    font-size:38px; font-weight:800;
+    color:var(--navy); margin:14px 0 6px;
+  }
+  .plan-price span{ font-size:16px; font-weight:500; color:var(--muted); }
+  .plan p{ font-size:14px; color:var(--muted); margin-bottom:24px; }
+  .plan ul{ list-style:none; margin-bottom:28px; }
+  .plan ul li{
+    font-size:14.5px; color:var(--text);
+    padding:7px 0; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:10px;
+  }
+  .plan ul li::before{ content:"✓"; color:var(--blue); font-weight:700; }
+  .plan-btn{
+    display:block; text-align:center;
+    padding:12px; border-radius:99px;
+    font-weight:600; font-size:14.5px;
+    background:var(--bg); color:var(--navy);
+    border:1.5px solid var(--border);
+  }
+  .plan.popular .plan-btn{
+    background:var(--blue); color:#fff; border:none;
+  }
+  .plan-btn:hover{ filter:brightness(.95); }
+
+  /* ---- CTA ---- */
+  .cta-section{
+    background:linear-gradient(135deg,var(--navy) 0%,#0F3460 100%);
+    padding:80px 0; text-align:center;
+  }
+  .cta-section h2{
+    font-size:clamp(26px,4vw,42px);
+    font-weight:800; color:#fff; margin-bottom:14px;
+  }
+  .cta-section p{ color:#94A3B8; font-size:17px; margin-bottom:32px; }
+
+  /* ---- FOOTER ---- */
+  footer{
+    background:var(--navy);
+    border-top:1px solid #1E3A5F;
+    padding:32px 0; text-align:center;
+  }
+  footer p{ font-size:13.5px; color:#64748B; }
+  footer span{ color:var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <div class="logo">Cloud<span>Store</span></div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it Works</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <a class="nav-btn" href="#pricing">Get Started Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag">☁️ Powered by AWS S3</div>
+    <h1>Store, Access &amp; Share Files <span>From Anywhere</span></h1>
+    <p>CloudStore gives you secure, fast, and reliable cloud storage — accessible from any device, any time.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#pricing">Start Free — No Card Needed</a>
+      <a class="btn-outline" href="#how">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div>
+        <span class="stat-num">99.9%</span>
+        <span class="stat-lbl">Uptime Guaranteed</span>
+      </div>
+      <div>
+        <span class="stat-num">256-bit</span>
+        <span class="stat-lbl">AES Encryption</span>
+      </div>
+      <div>
+        <span class="stat-num">150+</span>
+        <span class="stat-lbl">Countries Supported</span>
+      </div>
+      <div>
+        <span class="stat-num">10M+</span>
+        <span class="stat-lbl">Files Stored</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="wrap">
+    <span class="section-label">Why CloudStore</span>
+    <h2 class="section-title">Everything you need to store files with confidence</h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🔒</div>
+        <h3>Bank-Grade Security</h3>
+        <p>Your files are encrypted end-to-end with 256-bit AES encryption — same standard as banking apps.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⚡</div>
+        <h3>Lightning Fast Upload</h3>
+        <p>Multi-part upload technology means even large files transfer in seconds across all regions.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🌍</div>
+        <h3>Global CDN Access</h3>
+        <p>Files are cached at edge locations worldwide — so access is fast no matter where you are.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔗</div>
+        <h3>Easy File Sharing</h3>
+        <p>Generate secure shareable links with optional expiry — share files without sharing your password.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📁</div>
+        <h3>Folder Organisation</h3>
+        <p>Create unlimited folders, move files around, and keep your storage clean and structured.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔄</div>
+        <h3>Auto Backup</h3>
+        <p>Connect your device for automatic daily backups — never lose an important file again.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="wrap">
+    <span class="section-label">How It Works</span>
+    <h2 class="section-title">Up and running in under a minute</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Create Account</h4>
+        <p>Sign up free with just your email — no credit card required to get started.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Upload Files</h4>
+        <p>Drag and drop files directly into your CloudStore dashboard from any browser.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Organise</h4>
+        <p>Create folders, rename files, and keep everything exactly where you want it.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Access Anywhere</h4>
+        <p>Log in from any device, any browser — your files are always there, always safe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <span class="section-label">Pricing</span>
+    <h2 class="section-title">Simple plans, no hidden charges</h2>
+    <div class="plans">
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">₹0<span>/month</span></div>
+        <p>Perfect for personal use and getting started.</p>
+        <ul>
+          <li>5 GB Storage</li>
+          <li>File sharing links</li>
+          <li>Mobile access</li>
+          <li>Email support</li>
+        </ul>
+        <a class="plan-btn" href="#">Get Started</a>
+      </div>
+      <div class="plan popular">
+        <div class="popular-tag">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">₹299<span>/month</span></div>
+        <p>Great for professionals and small teams.</p>
+        <ul>
+          <li>100 GB Storage</li>
+          <li>Password-protected links</li>
+          <li>Auto backup</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="plan-btn" href="#">Start Free Trial</a>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Business</div>
+        <div class="plan-price">₹999<span>/month</span></div>
+        <p>For teams and businesses that need more power.</p>
+        <ul>
+          <li>1 TB Storage</li>
+          <li>Team collaboration</li>
+          <li>Advanced analytics</li>
+          <li>24/7 dedicated support</li>
+        </ul>
+        <a class="plan-btn" href="#">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="wrap">
+    <h2>Ready to store smarter?</h2>
+    <p>Join thousands of users who trust CloudStore for their files.</p>
+    <a class="btn-primary" href="#pricing">Create Free Account →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <p>© 2026 <span>CloudStore</span> — Built &amp; deployed on AWS S3 by Swathi K | DLK Software Solutions Internship Project</p>
+  </div>
+</footer>
+
+</body>
+</html>
