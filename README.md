@@ -30,7 +30,7 @@ See [docs/architecture.md](docs/architecture.md) for the current deployment flow
 ```
 cloudstore/
 ├── index.html
-├── error.html
+├── 404.html
 ├── style.css
 ├── script.js
 ├── lighthouserc.json
