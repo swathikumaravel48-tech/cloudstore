@@ -54,7 +54,7 @@ jobs:
       - name: Prepare site files
         run: |
           mkdir _site
-          cp index.html 404.html error.html style.css script.js _site/
+          cp index.html 404.html style.css script.js _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
