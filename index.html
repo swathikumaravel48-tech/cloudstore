@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CloudStore – Simple Cloud Storage</title>
+  <meta name="description" content="CloudStore is a cloud storage service concept: store, sync and share files securely. Responsive static website with storage-plan calculator.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <a class="brand" href="#top" id="top">CloudStore</a>
+    <nav aria-label="Main">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <h1>Your files, safe in the cloud and ready on every device.</h1>
+      <p class="lead">Drag the slider to see which CloudStore plan fits the amount of data you keep.</p>
+
+      <div class="calc" role="group" aria-labelledby="calc-title">
+        <label id="calc-title" for="gb">I need to store <output id="gb-out">50</output> GB</label>
+        <input type="range" id="gb" min="1" max="5000" value="50" step="1">
+        <div class="calc-result" aria-live="polite">
+          <span>Best fit: <strong id="rec-plan">Plus</strong></span>
+          <span id="rec-price" class="price-big">₹149 / month</span>
+        </div>
+        <div class="bill-toggle">
+          <button type="button" id="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" id="yearly" aria-pressed="false">Yearly (save 20%)</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="block">
+      <h2>What you get</h2>
+      <dl class="features">
+        <div><dt>Encrypted storage</dt><dd>Files are encrypted while they travel and while they rest.</dd></div>
+        <div><dt>Sync across devices</dt><dd>Edit on your laptop, open the same file on your phone.</dd></div>
+        <div><dt>Share with a link</dt><dd>Send a file to anyone and choose when the link expires.</dd></div>
+        <div><dt>Version history</dt><dd>Restore an earlier copy of a file if you change or delete it by mistake.</dd></div>
+        <div><dt>Always available</dt><dd>Stored in several locations, so one failure does not lose your data.</dd></div>
+        <div><dt>Pay for what you need</dt><dd>Start free and move to a bigger plan only when you run out of space.</dd></div>
+      </dl>
+    </section>
+
+    <section id="pricing" class="block">
+      <h2>Pricing</h2>
+      <p class="note">Demo prices in Indian rupees. Yearly billing is 20% cheaper.</p>
+      <table class="plans">
+        <caption class="sr">CloudStore plans</caption>
+        <thead>
+          <tr><th scope="col">Plan</th><th scope="col">Storage</th><th scope="col">Price</th><th scope="col">Best for</th></tr>
+        </thead>
+        <tbody id="plan-rows"></tbody>
+      </table>
+    </section>
+
+    <section id="how" class="block">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Create your account.</strong> Sign up with your email. No card needed for the Free plan.</li>
+        <li><strong>Upload your files.</strong> Drag files or whole folders into your CloudStore.</li>
+        <li><strong>Access them anywhere.</strong> Sign in on any device and your files are there.</li>
+        <li><strong>Share when you want.</strong> Create a link, set an expiry date, and send it.</li>
+      </ol>
+    </section>
+
+    <section id="faq" class="block">
+      <h2>Questions</h2>
+      <details><summary>Is the Free plan really free?</summary><p>Yes. You get 5 GB with no payment details and no time limit.</p></details>
+      <details><summary>Can I change my plan later?</summary><p>Yes. Move up or down at any time. Your files stay where they are.</p></details>
+      <details><summary>Where is this website hosted?</summary><p>It is a static website. Its files are stored on GitHub Pages and served over the web.</p></details>
+    </section>
+  </main>
+
+  <footer>
+    <p>CloudStore is a learning project by K. Swathi. <a href="https://github.com/swathikumaravel48-tech/cloudstore">View source on GitHub</a></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
